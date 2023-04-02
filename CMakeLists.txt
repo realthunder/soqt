@@ -144,8 +144,6 @@ else()
   set(PACKAGE_ADDITIONAL_REQUIREMENTS "QtCore, QtGui, QtOpenGL")
 endif()
 
-find_package(X11)
-
 # ##########################################################################
 # Setup build environment
 # ##########################################################################
@@ -360,7 +358,8 @@ endif()
 set(USE_EXCEPTIONS ON)
 set(HAVE_JOYSTICK_LINUX OFF)
 
-if(NOT WIN32) # work around dummy Xlib.h in conda windows
+if(NOT WIN32 AND NOT APPLE) # work around dummy Xlib.h in conda windows
+  find_package(X11)
   check_include_files(X11/Xlib.h HAVE_X11_AVAILABLE)
   if(HAVE_X11_AVAILABLE)
     set(X_DISPLAY_MISSING 0)
